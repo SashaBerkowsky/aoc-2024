@@ -4,10 +4,12 @@ fn day_one() {
     let content = fs::read_to_string("./txt/day-1.txt").expect("please exist");
     let lines = content.lines();
 
+    // part one:
     let mut left_list: Vec<i32> = Vec::new();
     let mut right_list: Vec<i32> = Vec::new();
     let mut distance: i32 = 0;
 
+    // part two:
     let mut similarity_score: i32 = 0;
     let mut right_ocurrences: HashMap<i32, i32> = HashMap::new();
 
@@ -45,5 +47,12 @@ fn day_one() {
 }
 
 fn main() {
+    const AOC_DAY: u8 = 1;
+
+    match AOC_DAY {
+        1 => day_one(),
+        _ => println!("Wrong day"),
+    }
+
     day_one();
 }
