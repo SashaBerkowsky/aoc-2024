@@ -1,7 +1,7 @@
 use std::{collections::HashMap, fs};
 
 pub fn solve() {
-    let content = fs::read_to_string("./txt/day-01.txt").expect("please exist");
+    let content = fs::read_to_string("./txt/day-01.txt").expect("file from day 01 not found");
     let lines = content.lines();
 
     // part one:
@@ -16,7 +16,7 @@ pub fn solve() {
     lines.for_each(|line| {
         let mut number_iter = line.split_ascii_whitespace();
         let left_str = number_iter.next().expect("no more numbers left");
-        let right_str = number_iter.next().expect("no more numbers left");
+        let right_str = number_iter.next().expect("no more numbers right");
 
         left_list.push(left_str.parse().unwrap());
         right_list.push(right_str.parse().unwrap());
