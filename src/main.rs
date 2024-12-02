@@ -53,6 +53,4 @@ fn main() {
         1 => day_one(),
         _ => println!("Wrong day"),
     }
-
-    day_one();
 }
