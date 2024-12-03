@@ -26,7 +26,7 @@ fn part_one(content: &str) -> i32 {
                         i += 1
                     }
                 },
-                None => {},
+                None => break,
             }
         } else {
             i += 1;
@@ -44,26 +44,22 @@ fn part_two(content: &str) -> i32 {
     let mut i: usize = 0;
 
     while i < content.len() {
-        if is_operation_enabled {
-            if content[i..].starts_with("mul(")  {
-                match content[i..].find(")") {
-                    Some(end_idx) => {
-                        let operation_length = end_idx + 1;
-                        if operation_length >= MIN_OPERATION_LEN && operation_length <= MAX_OPERATION_LEN {
-                            mult_result += parse_multiplication(&content[i + 4.. i + end_idx]);
+        let is_operation_mult = content[i..].starts_with("mul(");
+        if is_operation_enabled && is_operation_mult {
+            match content[i..].find(")") {
+                Some(end_idx) => {
+                    let operation_length = end_idx + 1;
+                    if operation_length >= MIN_OPERATION_LEN && operation_length <= MAX_OPERATION_LEN {
+                        mult_result += parse_multiplication(&content[i + 4.. i + end_idx]);
 
-                            i += end_idx;
-                        } else {
-                            i += 1
-                        }
-                    },
-                    None => {},
-                }
-            } else {
-                is_operation_enabled = !content[i..].starts_with("don't()");
-                i += 1;
+                        i += end_idx;
+                    } else {
+                        i += 1
+                    }
+                },
+                None => break,
             }
-        } else {
+        } else if !is_operation_enabled {
             match content[i..].find("do()") {
                 Some(idx) => {
                     i += idx + 3;
@@ -71,7 +67,11 @@ fn part_two(content: &str) -> i32 {
                 },
                 None => i = content.len(),
             } 
-        }
+        } else if !is_operation_mult {
+            is_operation_enabled = !content[i..].starts_with("don't()");
+
+            i += 1;
+        } 
     }
 
 
