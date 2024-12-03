@@ -15,7 +15,7 @@ There's just one problem: by holding the two lists up **side by side** (your puz
 
 For example:
 
-| Left    Right  | 
+| Left - Right  | 
 | :---------: |
 | `3    4` | 
 | `4    3` |
@@ -54,7 +54,7 @@ This time, you'll need to figure out exactly how often each number from the left
 
 Here are the same example lists again:
 
-| Left    Right  | 
+| Left - Right  | 
 | :---------: |
 | `3    4` | 
 | `4    3` |
