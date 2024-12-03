@@ -1,5 +1,8 @@
 use std::fs;
 
+const MIN_OPERATION_LEN: usize = 8;
+const MAX_OPERATION_LEN: usize = 12;
+
 pub fn solve() {
     let content = fs::read_to_string("src/txt/day-03.txt").expect("file from day 03 not found'");
 
@@ -8,8 +11,6 @@ pub fn solve() {
 }
 
 fn part_one(content: &str) -> i32 {
-    const MIN_OPERATION_LEN: usize = 8;
-    const MAX_OPERATION_LEN: usize = 12;
     let mut mult_result: i32 = 0;
     let mut i: usize = 0;
 
@@ -37,8 +38,6 @@ fn part_one(content: &str) -> i32 {
 }
 
 fn part_two(content: &str) -> i32 {
-    const MIN_OPERATION_LEN: usize = 8;
-    const MAX_OPERATION_LEN: usize = 12;
     let mut is_operation_enabled: bool = true;
     let mut mult_result: i32 = 0;
     let mut i: usize = 0;
