@@ -1,7 +1,7 @@
 mod aoc;
 
 fn main() {
-    const AOC_DAY: u8 = 4;
+    const AOC_DAY: u8 = 5;
 
     println!("Advent of code day {}:", {AOC_DAY});
     match AOC_DAY {
@@ -9,6 +9,7 @@ fn main() {
         2 => aoc::day_02::solve(),
         3 => aoc::day_03::solve(),
         4 => aoc::day_04::solve(),
+        5 => aoc::day_05::solve(),
         _ => println!("Wrong day"),
     }
 }
