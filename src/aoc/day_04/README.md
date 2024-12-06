@@ -44,3 +44,37 @@ In this word search, `XMAS` occurs a total of **18** times; here's the same word
 | . | X | . | X | . | X | M | A | S | X |
 
 Take a look at the little Elf's word search. **How many times does XMAS appear?**
+
+> Your puzzle answer was `2397`.
+
+## Part Two
+The Elf looks quizzically at you. Did you misunderstand the assignment?
+
+Looking for the instructions, you flip over the word search to find that this isn't actually an `XMAS` puzzle; it's an `X-MAS` puzzle in which you're supposed to find two `MAS` in the shape of an `X`. One way to achieve that is like this:
+
+| Example | 
+| :-----: |
+| `M.S` | 
+| `.A.` |
+| `M.S` |
+
+Irrelevant characters have again been replaced with `.` in the above diagram. Within the `X`, each `MAS` can be written forwards or backwards.
+
+Here's the same example from before, but this time all of the `X-MAS`es have been kept instead:
+
+|   |   |   |   |   |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|
+| . | M | . | S | . | . | . | . | . | . |
+| . | . | A | . | . | M | S | M | S | . |
+| . | M | . | S | . | M | A | A | . | . |
+| . | . | A | . | A | S | M | S | M | . |
+| . | M | . | S | . | M | . | . | . | . |
+| . | . | . | . | . | . | . | . | . | . |
+| S | . | S | . | S | . | S | . | S | . |
+| . | A | . | A | . | A | . | A | . | . |
+| M | . | M | . | M | . | M | . | M | . |
+| . | . | . | . | . | . | . | . | . | . |
+
+In this example, an `X-MAS` appears `9` times.
+
+> Your puzzle answer was `1824`.
