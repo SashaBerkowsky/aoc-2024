@@ -3,6 +3,7 @@ mod aoc;
 fn main() {
     const AOC_DAY: u8 = 4;
 
+    println!("Advent of code day {}:", {AOC_DAY});
     match AOC_DAY {
         1 => aoc::day_01::solve(),
         2 => aoc::day_02::solve(),

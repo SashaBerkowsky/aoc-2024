@@ -1,5 +1,8 @@
 use std::fs;
 
+const SEARCH_WORD: &str = "XMAS";
+const WORD_OFFSET: usize = SEARCH_WORD.len() - 1;
+
 #[derive(Debug)]
 enum ReadDirections {
     North,
@@ -40,9 +43,6 @@ impl ReadDirections {
     }
 }
 
-const SEARCH_WORD: &str = "XMAS";
-const WORD_OFFSET: usize = SEARCH_WORD.len() - 1;
-
 pub fn solve() {
     let content = fs::read_to_string("src/txt/day-04.txt").expect("file from day 04 not found");
     let mut puzzle: Vec<Vec<char>> = Vec::new();
@@ -56,30 +56,30 @@ pub fn solve() {
 }
 
 fn part_one(puzzle: &Vec<Vec<char>>) {
-    let mut xmas_total: i32 = 0;
+    let mut word_total: i32 = 0;
 
     for i in 0.. puzzle.len() {
         for j in 0.. puzzle[i].len() {
             if puzzle[i][j] == 'X' {
-                xmas_total += get_xmas_amount(i, j, &puzzle);
+                word_total += get_word_amount(i, j, &puzzle);
             }
         }
     }
 
-    println!("total aparences of word {}: {}", SEARCH_WORD, xmas_total);
+    println!("total aparences of word {}: {}", SEARCH_WORD, word_total);
 }
 
-fn get_xmas_amount(i: usize, j: usize, puzzle: &Vec<Vec<char>>) -> i32 {
+fn get_word_amount(i: usize, j: usize, puzzle: &Vec<Vec<char>>) -> i32 {
     let read_directions = get_read_directions(i, j, puzzle.len());
-    let mut xmas_amount: i32 = 0;
+    let mut word_amount: i32 = 0;
 
     read_directions.iter().for_each(|direction| {
         if direction.read_word(i, j, puzzle) == SEARCH_WORD.to_string() {
-            xmas_amount += 1;
+            word_amount += 1;
         }
     });
 
-    xmas_amount
+    word_amount
 }
 
 
@@ -120,7 +120,23 @@ fn get_read_directions(i: usize, j: usize, len: usize) -> Vec<ReadDirections> {
     read_directions
 }
 
-fn part_two(_puzzle: &Vec<Vec<char>>) {
-    println!("part two: ");
+fn part_two(puzzle: &Vec<Vec<char>>) {
+    let mut x_shaped_total: i32 = 0;
+
+    for i in 1.. puzzle.len() - 1 {
+        for j in 1.. puzzle[i].len() - 1 {
+            if is_desired_pattern(i, j, puzzle) {
+                x_shaped_total += 1;
+            }
+        }
+    }
+
+    println!("total x-shaped {}: {}", SEARCH_WORD, x_shaped_total);
 }
 
+fn is_desired_pattern(i: usize, j: usize, puzzle: &Vec<Vec<char>>) -> bool {
+    let is_fst_diag_valid = (puzzle[i - 1][j - 1] == 'M' && puzzle[i + 1][j + 1] == 'S') || (puzzle[i - 1][j - 1] == 'S' && puzzle[i + 1][j + 1] == 'M');
+    let is_snd_diag_valid = (puzzle[i + 1][j - 1] == 'M' && puzzle[i - 1][j + 1] == 'S') || (puzzle[i + 1][j - 1] == 'S' && puzzle[i - 1][j + 1] == 'M');
+
+    puzzle[i][j] == 'A' && is_fst_diag_valid && is_snd_diag_valid
+}
