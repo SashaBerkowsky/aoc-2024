@@ -81,7 +81,7 @@ Of course, you'll need to be careful: the actual list of **page ordering rules**
 
 Determine which updates are already in the correct order. **What do you get if you add up the middle page number from those correctly-ordered updates?**
 
-
+> Your puzzle answer was `5452`.
 
 
 
