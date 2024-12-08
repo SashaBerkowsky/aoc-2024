@@ -3,63 +3,105 @@ use std::{collections::HashMap, fs};
 pub fn solve() {
     let content = fs::read_to_string("src/txt/day-05.txt").expect("file from day 05 not found");
 
-    let separator_idx = content.find("\n\n").expect("puzzle input not formatted");
-    let section_a = &content[..separator_idx];
-    let section_b = &content[separator_idx + 2..];
-
-    let mut ordering_rules: HashMap<i32, Vec<i32>> = HashMap::new();
-
-    let mut middle_correct_updates = 0;
-
-    section_a.lines().for_each(|line_a| {
-        let (x_str, y_str) = line_a.split_once("|").expect("section a not formatted");
-
-        let x: i32 = x_str.parse().expect("failed to parse y");
-        let y: i32 = y_str.parse().expect("failed to parse y");
-
-        if let Some(x_rules) = ordering_rules.get_mut(&x) {
-            x_rules.push(y);
-        } else {
-            ordering_rules.insert(x, vec![y]);
-        }
-    });
-
-    ordering_rules.iter_mut().for_each(|(_, rules)| {
-        rules.sort();
-    });
-
-    section_b.lines().for_each(|line_b| {
-        let mut current_update: Vec<i32> = Vec::new();
-        let mut is_update_valid = true;
-        let mut i: usize = 0;
-
-        line_b.split(",").for_each(|page_str| {
-            current_update.push(page_str.parse().expect("failed to parse page"));
-        });
-
-
-        while i < current_update.len() {
-            let current_page = current_update[i];
-            let mut j: usize = 0;
-
-            while j < i  && is_update_valid {
-                if let Some(rules) = ordering_rules.get(&current_page) {
-                    let search_result = rules.binary_search(&current_update[j]);
-                    is_update_valid = search_result.is_err();
-                }
-
-                j += 1;
-            }
-
-            i += 1;
-        }
-
-        if is_update_valid {
-            middle_correct_updates += current_update[current_update.len() / 2];
-        }
-    });
-
-
-    println!("total: {}", middle_correct_updates);
+    println!("part one: {}", part_one(&content).unwrap());
+    println!("part two: {}", part_two(&content).unwrap());
 }
 
+pub fn part_one(input: &str) -> Option<u32> {
+    let manual = Manual::from(input);
+    let mut sum = 0;
+
+    manual
+        .updates
+        .iter()
+        .filter(|&update| manual.correct(update))
+        .for_each(|update| {
+            let mid = update.len() / 2;
+            sum += update[mid]
+        });
+
+    Some(sum)
+}
+
+
+pub fn part_two(input: &str) -> Option<u32> {
+    let manual = Manual::from(input);
+    let mut sum = 0;
+
+    manual
+        .updates
+        .iter()
+        .filter(|&update| !manual.correct(update)) 
+        .for_each(|update| {
+            let sorted_update = manual.fix(update.clone());
+
+            let mid = sorted_update.len() / 2;
+            sum += sorted_update[mid];
+        });
+
+    Some(sum)
+}
+
+#[derive(Clone)]
+struct Manual {
+    rules: Vec<(u32, u32)>,
+    updates: Vec<Vec<u32>>,
+}
+
+impl Manual {
+    fn correct(&self, update: &[u32]) -> bool {
+        let map: HashMap<u32, usize> = update
+            .iter()
+            .enumerate()
+            .map(|(idx, &page)| (page, idx))
+            .collect();
+
+        self.rules
+            .iter()
+            .all(|(x, y)| match (map.get(x), map.get(y)) {
+                (Some(&x), Some(&y)) => x < y,
+                _ => true,
+            })
+    }
+
+    fn fix(&self, mut update: Vec<u32>) -> Vec<u32> {
+        update.sort_by(|&x, &y| {
+            if self.rules.contains(&(x, y)) {
+                std::cmp::Ordering::Less
+            } else if self.rules.contains(&(y, x)) {
+                std::cmp::Ordering::Greater
+            } else {
+                std::cmp::Ordering::Equal
+            }
+        });
+
+        update
+    }
+}
+
+impl From<&str> for Manual {
+    fn from(input: &str) -> Self {
+        let manual: Vec<&str> = input.split("\n\n").collect();
+        let (rules, updates) = (manual[0], manual[1]);
+
+        let rules: Vec<(u32, u32)> = rules
+            .lines()
+            .map(|rule| {
+                let parts: Vec<u32> = rule.split('|').filter_map(|num| num.parse().ok()).collect();
+                (parts[0], parts[1])
+            })
+            .collect();
+
+        let updates: Vec<Vec<u32>> = updates
+            .lines()
+            .map(|update| {
+                update
+                    .split(',')
+                    .filter_map(|num| num.parse().ok())
+                    .collect()
+            })
+            .collect();
+
+        Self { rules, updates }
+    }
+}
