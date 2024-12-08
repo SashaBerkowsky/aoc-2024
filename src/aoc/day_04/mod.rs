@@ -44,7 +44,7 @@ impl ReadDirections {
 }
 
 pub fn solve() {
-    let content = fs::read_to_string("src/txt/day-04.txt").expect("file from day 04 not found");
+    let content = fs::read_to_string("../../txt/day-04.txt").expect("file from day 04 not found");
     let mut puzzle: Vec<Vec<char>> = Vec::new();
 
     content.lines().for_each(|line| {

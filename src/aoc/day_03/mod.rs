@@ -4,7 +4,7 @@ const MIN_OPERATION_LEN: usize = 8;
 const MAX_OPERATION_LEN: usize = 12;
 
 pub fn solve() {
-    let content = fs::read_to_string("src/txt/day-03.txt").expect("file from day 03 not found'");
+    let content = fs::read_to_string("../../txt/day-03.txt").expect("file from day 03 not found'");
 
     println!("part one total: {}", part_one(&content));
     println!("part two total: {}", part_two(&content));

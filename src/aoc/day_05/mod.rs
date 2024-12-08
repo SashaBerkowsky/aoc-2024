@@ -1,7 +1,7 @@
 use std::{collections::HashMap, fs};
 
 pub fn solve() {
-    let content = fs::read_to_string("src/txt/day-05.txt").expect("file from day 05 not found");
+    let content = fs::read_to_string("../../txt/puzzles/day-05.txt").expect("file from day 05 not found");
 
     println!("part one: {}", part_one(&content));
     println!("part two: {}", part_two(&content));

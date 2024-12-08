@@ -1,7 +1,7 @@
 use std::fs;
 
 pub fn solve() {
-    let content = fs::read_to_string("src/txt/day-02.txt").expect("file from day 02 not found");
+    let content = fs::read_to_string("../../txt/day-02.txt").expect("file from day 02 not found");
     let lines = content.lines();
 
     // part one:
