@@ -3,11 +3,11 @@ use std::{collections::HashMap, fs};
 pub fn solve() {
     let content = fs::read_to_string("src/txt/day-05.txt").expect("file from day 05 not found");
 
-    println!("part one: {}", part_one(&content).unwrap());
-    println!("part two: {}", part_two(&content).unwrap());
+    println!("part one: {}", part_one(&content));
+    println!("part two: {}", part_two(&content));
 }
 
-pub fn part_one(input: &str) -> Option<u32> {
+pub fn part_one(input: &str) -> u32 {
     let manual = Manual::from(input);
     let mut sum = 0;
 
@@ -20,11 +20,11 @@ pub fn part_one(input: &str) -> Option<u32> {
             sum += update[mid]
         });
 
-    Some(sum)
+    sum
 }
 
 
-pub fn part_two(input: &str) -> Option<u32> {
+pub fn part_two(input: &str) -> u32 {
     let manual = Manual::from(input);
     let mut sum = 0;
 
@@ -33,13 +33,13 @@ pub fn part_two(input: &str) -> Option<u32> {
         .iter()
         .filter(|&update| !manual.correct(update)) 
         .for_each(|update| {
-            let sorted_update = manual.fix(update.clone());
+            let sorted_update = manual.fix_update(update.clone());
 
             let mid = sorted_update.len() / 2;
             sum += sorted_update[mid];
         });
 
-    Some(sum)
+    sum
 }
 
 #[derive(Clone)]
@@ -64,7 +64,7 @@ impl Manual {
             })
     }
 
-    fn fix(&self, mut update: Vec<u32>) -> Vec<u32> {
+    fn fix_update(&self, mut update: Vec<u32>) -> Vec<u32> {
         update.sort_by(|&x, &y| {
             if self.rules.contains(&(x, y)) {
                 std::cmp::Ordering::Less
